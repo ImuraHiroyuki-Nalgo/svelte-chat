@@ -1,6 +1,11 @@
 <script lang="ts">
+	import type { PageData } from './$types';
+	import { initializeApp } from 'firebase/app';
+	export let data: PageData;
+
+	const firebaseApp = initializeApp(data.firebaseConfig);
 	const onClick = () => {
-		console.log('Hello, World!!');
+		console.log(firebaseApp);
 	};
 </script>
 

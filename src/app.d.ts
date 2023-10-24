@@ -2,7 +2,9 @@
 // for information about these interfaces
 declare global {
 	namespace App {
-		// interface Error {}
+		interface Error {
+			message: "予期しないエラーが発生しました。"
+		}
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
