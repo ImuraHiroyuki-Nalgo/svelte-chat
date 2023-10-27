@@ -1,10 +1,28 @@
-import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from "$env/static/private"
+import { initializeApp, type FirebaseApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Database, getDatabase, ref, type DatabaseReference } from "firebase/database";
 
-export const firebaseConfig = {
-    apiKey: API_KEY,
-    authDomain: AUTH_DOMAIN,
-    projectId: PROJECT_ID,
-    storageBucket: STORAGE_BUCKET,
-    messagingSenderId: MESSAGING_SENDER_ID,
-    appId: APP_ID
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID
 }
+
+export function isLogined(): Promise<boolean> {
+  return new Promise((resolve) => {
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    })
+  })
+}
+
+const app: FirebaseApp = initializeApp(firebaseConfig)
+const db: Database = getDatabase();
+export const dbRef: DatabaseReference = ref(db, 'chat');
